@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
+import kg.tutorialapp.wheather_final_project.network.PostsApi
 import kg.tutorialapp.wheather_final_project.network.WeatherApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,20 +25,169 @@ class MainActivity : AppCompatActivity() {
         textView = findViewById(R.id.textView)
         textView2 = findViewById(R.id.textView2)
 
-        val call = weatherApi.getWeather()
+        //fetchWeather()
+        //fetchWeatherUsingQuery()
+        //fetchPostById()
+        //createPost()
+        //createPostUsingFields()
+        createPostUsingFieldsMap()
+    }
 
-        call.enqueue(object: Callback<ForeCast> {
+    private fun createPostUsingFieldsMap() {
+        val map = HashMap<String, String>().apply {
+            put("userId", "55")
+            put("title", "SUF!!!")
+            put("body", "Karakol")
+        }
 
-            override fun  onResponse(call: Call<ForeCast>, response: Response<ForeCast>){
+        val call = postsApi.createPostUsingFieldsMap(map)
 
-                if (response.isSuccessful){
+        call.enqueue(object: Callback<Post>{
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+
+                val resultPost = response.body()
+
+                resultPost?.let {
+                    val resultText = "ID:" + it.id + "\n" +
+                            "userID:" + it.userId + "\n" +
+                            "TITLE:" + it.title + "\n" +
+                            "BODY:" + it.body + "\n"
+
+                    textView.text = resultText
+                }
+
+            }
+
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+
+
+            }
+        })
+    }
+
+    private fun createPostUsingFields() {
+
+        val call = postsApi.createPostUsingFields(userId = "99", title = "HI!!!", body = "Osh")
+
+        call.enqueue(object: Callback<Post>{
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+
+                val resultPost = response.body()
+
+                resultPost?.let {
+                    val resultText = "ID:" + it.id + "\n" +
+                            "userID:" + it.userId + "\n" +
+                            "TITLE:" + it.title + "\n" +
+                            "BODY:" + it.body + "\n"
+
+                    textView.text = resultText
+                }
+
+            }
+
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+
+
+            }
+        })
+    }
+
+    private fun createPost() {
+        val post = Post(userId = 42, title = "Hello", body = "BISHKEK")
+
+        val call = postsApi.createPost(post)
+
+        call.enqueue(object: Callback<Post>{
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+
+                val resultPost = response.body()
+
+                resultPost?.let {
+                    val resultText = "ID:" + it.id + "\n" +
+                            "userID:" + it.userId + "\n" +
+                            "TITLE:" + it.title + "\n" +
+                            "BODY:" + it.body + "\n"
+
+                    textView.text = resultText
+                }
+
+            }
+
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+
+
+            }
+        })
+    }
+
+    private fun fetchPostById() {
+        val call = postsApi.fetchPostById(10)
+
+        call.enqueue(object: Callback<Post>{
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+
+                val post = response.body()
+
+                post?.let {
+                    val resultText = "ID:" + it.id + "\n" +
+                            "userID:" + it.userId + "\n" +
+                            "TITLE:" + it.title + "\n" +
+                            "BODY:" + it.body + "\n"
+
+                    textView.text = resultText
+                }
+
+            }
+
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+
+
+            }
+        })
+    }
+
+    private fun fetchWeatherUsingQuery() {
+        val call = weatherApi.fetchWeatherUsingQuery(lat = 	40.513999, lon = 72.816098)
+
+        call.enqueue(object : Callback<ForeCast> {
+
+            override fun onResponse(call: Call<ForeCast>, response: Response<ForeCast>) {
+
+                if (response.isSuccessful) {
                     val foreCast = response.body()
 
                     foreCast?.let {
 
                         textView.text = it.current?.weather!![0].description
 
-                        textView2.text = it.timezone
+                        textView2.text = it.current?.temp.toString()
+
+                        //Toast.makeText(this@MainActivity, it.toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ForeCast>, t: Throwable) {
+                Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun fetchWeather() {
+        val call = weatherApi.fetchWeather()
+
+        call.enqueue(object : Callback<ForeCast> {
+
+            override fun onResponse(call: Call<ForeCast>, response: Response<ForeCast>) {
+
+                if (response.isSuccessful) {
+                    val foreCast = response.body()
+
+                    foreCast?.let {
+
+                        textView.text = it.current?.weather!![0].description
+
+                        textView2.text = it.current?.temp.toString()
 
                         Toast.makeText(this@MainActivity, it.toString(), Toast.LENGTH_LONG).show()
                     }
@@ -58,12 +208,17 @@ class MainActivity : AppCompatActivity() {
 
     private val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("https://api.openweathermap.org/data/2.5/")
+            //.baseUrl("https://api.openweathermap.org/data/2.5/")
+            .baseUrl("https://jsonplaceholder.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create()).client(okHttp)
             .build()
     }
 
     private val weatherApi by lazy {
         retrofit.create(WeatherApi::class.java)
+    }
+
+    private  val postsApi by lazy {
+        retrofit.create(PostsApi::class.java)
     }
 }
