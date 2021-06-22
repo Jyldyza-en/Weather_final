@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Wheather_final_project</string>
+    <string name="text1">0</string>
+    <string name="Button">START WORK ON MAIN THREAD</string>
+    <string name="Button2">SHOW TOAST</string>
+    <string name="Switch">Switch</string>
+    <string name="checkbox">CheckBox</string>
 </resources>

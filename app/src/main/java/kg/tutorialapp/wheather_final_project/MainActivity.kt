@@ -2,6 +2,7 @@ package kg.tutorialapp.wheather_final_project
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import retrofit2.Call
@@ -13,6 +14,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var textView: TextView
     lateinit var textView2: TextView
 
+    private var workResult = 0
+
+    private lateinit var tvCounter: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,7 +25,39 @@ class MainActivity : AppCompatActivity() {
         textView = findViewById(R.id.textView)
         textView2 = findViewById(R.id.textView2)
 
-        fetchWeatherUsingQuery()
+        tvCounter = findViewById(R.id.tv_counter)
+
+        //fetchWeatherUsingQuery()
+
+        setup()
+
+    }
+
+    private fun setup() {
+        val btnStart = findViewById<Button>(R.id.btn_start)
+
+        btnStart.setOnClickListener {
+            doSomeWork()
+        }
+
+        val btnShowToast = findViewById<Button>(R.id.btn_show_toast)
+
+        btnShowToast.setOnClickListener {
+            Toast.makeText(this, "Hello",Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun doSomeWork() {
+
+        Thread(Runnable {
+            for (i in 0..4){
+                Thread.sleep(1000)
+                workResult++
+            }
+            runOnUiThread {
+                tvCounter.text = workResult.toString()
+            }
+        }).start()
 
     }
 
