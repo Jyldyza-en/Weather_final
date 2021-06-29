@@ -1,8 +1,13 @@
 package kg.tutorialapp.wheather_final_project
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class ForeCast(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long? = null,
     var lat: Double? = null,
     var lon: Double? = null,
     var timezone: String? = null,
