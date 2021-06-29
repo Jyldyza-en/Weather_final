@@ -1,18 +1,22 @@
 package kg.tutorialapp.wheather_final_project
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var textView: TextView
-    lateinit var textView2: TextView
+    private lateinit var textView: TextView
+    private lateinit var textView2: TextView
 
     private var workResult = 0
 
@@ -37,7 +41,9 @@ class MainActivity : AppCompatActivity() {
         val btnStart = findViewById<Button>(R.id.btn_start)
 
         btnStart.setOnClickListener {
-            doSomeWork()
+            //doSomeWork()
+
+            makeRxCall()
         }
 
         val btnShowToast = findViewById<Button>(R.id.btn_show_toast)
@@ -47,45 +53,67 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun doSomeWork() {
+    @SuppressLint("CheckResult")
+    private fun makeRxCall() {
+        WeatherClient.weatherApi.fetchWeather()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                textView.text = it.current?.weather!![0].description
 
-        Thread(Runnable {
-            for (i in 0..4){
-                Thread.sleep(1000)
-                workResult++
-            }
-            runOnUiThread {
-                tvCounter.text = workResult.toString()
-            }
-        }).start()
+                textView2.text = it.current?.temp.toString()
+            }, {
+                Toast.makeText(this,it.message, Toast.LENGTH_LONG).show()
 
+            })
     }
 
-    private fun fetchWeatherUsingQuery() {
-        val call = WeatherClient.weatherApi.fetchWeatherUsingQuery(lat = 40.513999, lon = 72.816098)
+    //just, create, fromCallable(), fromIterable()
+    //disposable, compositeDisposable, clear(), dispose()
+    //map, flatmap, zip
+    //publisher: single, Maybe, completable,
 
-        call.enqueue(object : Callback<ForeCast> {
+    private fun doSomeWork() {
 
-            override fun onResponse(call: Call<ForeCast>, response: Response<ForeCast>) {
+        val observable = Observable.create<String>  { emitter->
+            Log.d(TAG, "${Thread.currentThread().name} starting emitting")
+            Thread.sleep(3000)
+            emitter.onNext("Hello")
+            Thread.sleep(1000)
+            emitter.onNext("Bishkek")
+            emitter.onComplete()
+        }
+        val observer = object: Observer<String>{
+            override fun onSubscribe(d: Disposable) {
 
-                if (response.isSuccessful) {
-                    val foreCast = response.body()
-
-                    foreCast?.let {
-
-                        textView.text = it.current?.weather!![0].description
-
-                        textView2.text = it.current?.temp.toString()
-
-                        //Toast.makeText(this@MainActivity, it.toString(), Toast.LENGTH_LONG).show()
-                    }
-                }
             }
 
-            override fun onFailure(call: Call<ForeCast>, t: Throwable) {
-                Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
+            override fun onNext(t: String) {
+                Log.d(TAG, "${Thread.currentThread().name} onNext{} $t")
             }
-        })
+
+            override fun onError(e: Throwable) {
+
+            }
+
+            override fun onComplete() {
+
+            }
+
+        }
+
+        observable
+            .subscribeOn(Schedulers.computation())
+            .map{
+                Log.d(TAG, "${Thread.currentThread().name} starting mapping")
+                it.uppercase()
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(observer)
+    }
+
+    companion object{
+        const val TAG = "Rx"
     }
 }
 
