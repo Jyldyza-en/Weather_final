@@ -16,12 +16,7 @@ data class ForeCast(
     var hourly: List<HourlyForeCast>? = null,
     var daily: List<DailyForeCast>? = null
 
-){
-    override fun toString(): String {
-        return "ID: ${id?.toString()} \nLAT: ${lat?.toString()} \nLON: ${lon?.toString()}" +
-                "\nDESC: ${current?.weather?.get(0)?.description} \n\n"
-    }
-}
+)
 
 data class CurrentForeCast(
     @SerializedName("dt")
