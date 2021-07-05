@@ -1,6 +1,5 @@
-package kg.tutorialapp.wheather_final_project
+package kg.tutorialapp.wheather_final_project.network
 
-import kg.tutorialapp.wheather_final_project.network.WeatherApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

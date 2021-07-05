@@ -1,4 +1,4 @@
-package kg.tutorialapp.wheather_final_project
+package kg.tutorialapp.wheather_final_project.extensions
 
 import java.text.SimpleDateFormat
 import java.util.*

@@ -1,6 +1,6 @@
 package kg.tutorialapp.wheather_final_project.network
 
-import kg.tutorialapp.wheather_final_project.Post
+import kg.tutorialapp.wheather_final_project.models.Post
 import retrofit2.Call
 import retrofit2.http.*
 

@@ -1,4 +1,4 @@
-package kg.tutorialapp.wheather_final_project
+package kg.tutorialapp.wheather_final_project.models
 
 data class Comment(
         var userId: Int? = null,
