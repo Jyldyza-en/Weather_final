@@ -1,19 +1,12 @@
 <resources>
-    <string name="app_name">Wheather_final_project</string>
-    <string name="text1">0</string>
-    <string name="Button">START WORK ON MAIN THREAD</string>
-    <string name="Button2">SHOW TOAST</string>
-    <string name="Switch">Switch</string>
-    <string name="checkbox">CheckBox</string>
-    <string name="insert">INSERT</string>
-    <string name="update">UPDATE</string>
-    <string name="delete">DELETE</string>
-    <string name="query">QUERY</string>
-    <string name="query_get_all">QUERY GET ALL</string>
-    <string name="forecast_list">empty</string>
-    <string name="etID">id</string>
-    <string name="etLat">lat</string>
-    <string name="etLong">Long</string>
-    <string name="etDescription">description</string>
-    <string name="button">Button</string>
+    <string name="app_name">Weather_final_project</string>
+
+    <string name="bishkek">Бишкек</string>
+    <string name="refresh">Обновить</string>
+    <string name="sunset">Закат</string>
+    <string name="humidity">Влажность</string>
+    <string name="sunrise">Восход</string>
+    <string name="feels_like">чувствуется как %s</string>
+    <string name="divider">/</string>
+
 </resources>

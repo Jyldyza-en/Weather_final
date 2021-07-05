@@ -10,7 +10,7 @@ import kg.tutorialapp.wheather_final_project.ForeCast
 @Dao
 interface ForeCastDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(forecast: ForeCast)
 
     @Update

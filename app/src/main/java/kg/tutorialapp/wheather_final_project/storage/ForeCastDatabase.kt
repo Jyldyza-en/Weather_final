@@ -6,7 +6,7 @@ import kg.tutorialapp.wheather_final_project.ForeCast
 
 @Database(
     entities = [ForeCast::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 
