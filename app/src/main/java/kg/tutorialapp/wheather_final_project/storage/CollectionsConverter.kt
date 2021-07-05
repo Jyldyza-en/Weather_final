@@ -3,8 +3,8 @@ package kg.tutorialapp.wheather_final_project.storage
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kg.tutorialapp.wheather_final_project.DailyForeCast
-import kg.tutorialapp.wheather_final_project.HourlyForeCast
+import kg.tutorialapp.wheather_final_project.models.DailyForeCast
+import kg.tutorialapp.wheather_final_project.models.HourlyForeCast
 
 class CollectionsConverter {
     @TypeConverter

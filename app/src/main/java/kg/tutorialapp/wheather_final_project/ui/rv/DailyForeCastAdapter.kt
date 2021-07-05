@@ -2,7 +2,7 @@ package kg.tutorialapp.wheather_final_project.ui.rv
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kg.tutorialapp.wheather_final_project.DailyForeCast
+import kg.tutorialapp.wheather_final_project.models.DailyForeCast
 
 class DailyForeCastAdapter: RecyclerView.Adapter<DailyForeCastVH>(){
 

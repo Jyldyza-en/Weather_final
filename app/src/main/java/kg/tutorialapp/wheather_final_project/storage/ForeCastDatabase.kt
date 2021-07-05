@@ -2,7 +2,7 @@ package kg.tutorialapp.wheather_final_project.storage
 
 import android.content.Context
 import androidx.room.*
-import kg.tutorialapp.wheather_final_project.ForeCast
+import kg.tutorialapp.wheather_final_project.models.ForeCast
 
 @Database(
     entities = [ForeCast::class],

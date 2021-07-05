@@ -9,13 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kg.tutorialapp.wheather_final_project.ForeCast
+import kg.tutorialapp.wheather_final_project.models.ForeCast
 import kg.tutorialapp.wheather_final_project.R
 import kg.tutorialapp.wheather_final_project.network.WeatherClient
 import kg.tutorialapp.wheather_final_project.extensions.format
 import kg.tutorialapp.wheather_final_project.models.Constants
 import kg.tutorialapp.wheather_final_project.storage.ForeCastDatabase
 import kg.tutorialapp.wheather_final_project.ui.rv.DailyForeCastAdapter
+import kg.tutorialapp.wheather_final_project.ui.rv.HourlyForeCastAdapter
 import kotlin.math.roundToInt
 
 @SuppressLint("CheckResult")
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var progress: ProgressBar
 
     private lateinit var dailyForeCastAdapter : DailyForeCastAdapter
+
+    private lateinit var hourlyForeCastAdapter: HourlyForeCastAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,10 +54,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerViews() {
-        val rv_daily_forecast = findViewById<RecyclerView>(R.id.rv_daily_forecast)
+        val rvDailyForecast = findViewById<RecyclerView>(R.id.rv_daily_forecast)
 
         dailyForeCastAdapter = DailyForeCastAdapter()
-        rv_daily_forecast.adapter = dailyForeCastAdapter
+        rvDailyForecast.adapter = dailyForeCastAdapter
+
+        val rvHourlyForecast = findViewById<RecyclerView>(R.id.rv_hourly_forecast)
+
+        hourlyForeCastAdapter = HourlyForeCastAdapter()
+        rvHourlyForecast.adapter = hourlyForeCastAdapter
     }
 
     private fun showLoading() {
@@ -91,6 +99,8 @@ class MainActivity : AppCompatActivity() {
                 loadWeatherIcon(it)
                 it.daily?.let { dailyList ->
                     dailyForeCastAdapter.setItems(dailyList) }
+                it.hourly?.let { hourlyList ->
+                    hourlyForeCastAdapter.setItems(hourlyList) }
             }
         })
     }

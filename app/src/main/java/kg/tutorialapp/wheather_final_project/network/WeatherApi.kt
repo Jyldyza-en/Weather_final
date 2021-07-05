@@ -1,7 +1,7 @@
 package kg.tutorialapp.wheather_final_project.network
 
 import io.reactivex.Single
-import kg.tutorialapp.wheather_final_project.ForeCast
+import kg.tutorialapp.wheather_final_project.models.ForeCast
 import retrofit2.http.GET
 import retrofit2.http.Query
 

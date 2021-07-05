@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Single
-import kg.tutorialapp.wheather_final_project.ForeCast
+import kg.tutorialapp.wheather_final_project.models.ForeCast
 
 
 @Dao
