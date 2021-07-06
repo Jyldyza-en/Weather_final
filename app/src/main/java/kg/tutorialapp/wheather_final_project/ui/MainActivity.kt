@@ -40,6 +40,10 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerViews()
         getWeatherFromApi()
         subscribeToLiveData()
+
+
+
+
     }
 
     private fun setupViews() {
@@ -122,8 +126,8 @@ class MainActivity : AppCompatActivity() {
         tvTempMin.text = it.daily?.get(0)?.temp?.min?.roundToInt()?.toString()
         tvFeelsLike.text = it.current?.feels_like?.roundToInt()?.toString()
         tvWeather.text = it.current?.weather?.get(0)?.description
-        tvSunrise.text = it.current?.sunrise.format("hh:mm")
-        tvSunset.text = it.current?.sunset.format("hh:mm")
+        tvSunrise.text = it.current?.sunrise.format("HH:mm")
+        tvSunset.text = it.current?.sunset.format("HH:mm")
         tvHumidity.text = "${it.current?.humidity?.toString()} %"
     }
 
