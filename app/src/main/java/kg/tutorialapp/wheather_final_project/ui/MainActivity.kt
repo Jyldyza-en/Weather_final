@@ -3,11 +3,13 @@ package kg.tutorialapp.wheather_final_project.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.messaging.FirebaseMessaging
 import kg.tutorialapp.wheather_final_project.models.ForeCast
 import kg.tutorialapp.wheather_final_project.R
 import kg.tutorialapp.wheather_final_project.extensions.format
@@ -34,6 +36,14 @@ class MainActivity : AppCompatActivity() {
         setupViews()
         setupRecyclerViews()
         subscribeToLiveData()
+
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            Log.i("Token", it)
+        }
+
+        intent.getStringExtra("EXTRA")?.let {
+            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun setupViews() {
