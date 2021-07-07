@@ -2,6 +2,7 @@ package kg.tutorialapp.wheather_final_project.di
 
 import android.content.Context
 import androidx.room.Room
+import kg.tutorialapp.wheather_final_project.BuildConfig
 import kg.tutorialapp.wheather_final_project.network.WeatherApi
 import kg.tutorialapp.wheather_final_project.repo.WeatherRepo
 import kg.tutorialapp.wheather_final_project.storage.ForeCastDatabase
@@ -41,12 +42,14 @@ private fun provideHttpClient(): OkHttpClient {
     val interceptor = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
 
     return OkHttpClient.Builder()
-        .addInterceptor(interceptor)
+        .apply {
+            addInterceptor(interceptor)
+        }
         .build()
 }
 private fun provideRetrofit(httpClient: OkHttpClient) =
     Retrofit.Builder()
-        .baseUrl("https://api.openweathermap.org/data/2.5/")
+        .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(httpClient)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
