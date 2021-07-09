@@ -1,19 +1,18 @@
 package kg.tutorialapp.wheather_final_project.ui
 
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessaging
 import kg.tutorialapp.wheather_final_project.models.ForeCast
 import kg.tutorialapp.wheather_final_project.R
 import kg.tutorialapp.wheather_final_project.extensions.format
-import kg.tutorialapp.wheather_final_project.extensions.formatTime
 import kg.tutorialapp.wheather_final_project.models.Constants
 import kg.tutorialapp.wheather_final_project.ui.rv.DailyForeCastAdapter
 import kg.tutorialapp.wheather_final_project.ui.rv.HourlyForeCastAdapter
@@ -79,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        vm._isLoading.observe(this, Observer {
+        vm._isLoading.observe(this, {
             when(it){
                 true -> showLoading()
                 false -> hideLoading()
@@ -108,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         }, 2000)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setValuesToViews(it: ForeCast) {
         val tvTemperature = findViewById<TextView>(R.id.tv_temperature)
         val tvDate = findViewById<TextView>(R.id.tv_date)
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         tvDate.text = it.current?.date.format()
         tvTempMax.text = it.daily?.get(0)?.temp?.max?.roundToInt()?.toString()
         tvTempMin.text = it.daily?.get(0)?.temp?.min?.roundToInt()?.toString()
-        tvFeelsLike.text = it.current?.feels_like?.roundToInt()?.toString()
+        tvFeelsLike.text = "Ощущается как ${it.current?.feels_like?.roundToInt()?.toString()}"
         tvWeather.text = it.current?.weather?.get(0)?.description
         tvSunrise.text = it.current?.sunrise.format("HH:mm")
         tvSunset.text = it.current?.sunset.format("HH:mm")
