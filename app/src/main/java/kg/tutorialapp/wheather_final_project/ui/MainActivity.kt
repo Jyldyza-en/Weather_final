@@ -13,6 +13,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kg.tutorialapp.wheather_final_project.models.ForeCast
 import kg.tutorialapp.wheather_final_project.R
 import kg.tutorialapp.wheather_final_project.extensions.format
+import kg.tutorialapp.wheather_final_project.extensions.formatTime
 import kg.tutorialapp.wheather_final_project.models.Constants
 import kg.tutorialapp.wheather_final_project.ui.rv.DailyForeCastAdapter
 import kg.tutorialapp.wheather_final_project.ui.rv.HourlyForeCastAdapter
